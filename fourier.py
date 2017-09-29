@@ -20,12 +20,19 @@ def format_function_for_fft(function, xs=np.linspace(0, 10, 100), **pars):
     return ys
 
 
+def get_human_representation_of_xs(xs):
+    """
+    accepts fft formatted data as ys
+    original xs as xs
+    """
+    return np.concatenate([-xs[::-1][:-1], xs])
+
 def get_human_representation_of_function(xs, ys):
     """
     accepts fft formatted data as ys
     original xs as xs
     """
-    xs = np.concatenate([-xs[::-1][:-1], xs])
+    xs = get_human_representation_of_xs(xs)
     n = len(ys)
     ys = np.concatenate([ys[(n // 2 + 1):], ys[:(n // 2 + 1)]])
     return xs, ys

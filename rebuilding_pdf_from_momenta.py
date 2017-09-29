@@ -5,7 +5,7 @@ from numpy import vectorize
 from scipy.stats import norm
 import scipy.misc
 from scipy.fftpack import fft, ifft
-from fourier import get_human_representation_of_function, format_function_for_fft, get_positive_xs_domain
+from fourier import get_human_representation_of_function, format_function_for_fft, get_positive_xs_domain, get_human_representation_of_xs
 
 
 # get empirical moments
@@ -43,45 +43,48 @@ if __name__ == "__main__":
     # print "Enjoy the plot!"
     # plt.show()
 
-    xs = np.linspace(0, 10, 200)
-    ys = format_function_for_fft(approx_characteristic_function, xs, n=8)
+    fs = np.linspace(0, 30, 100)
+    fts = format_function_for_fft(approx_characteristic_function, fs, n=30)
 
-    fys = fft(ys)
-    iys = ifft(ys)
+    fys = fft(fts)
+    iys = ifft(fts)
 
     print fys
     print iys
 
-
     plt.figure(1)
-    plt.subplot(311)
-    plt.title('Fourier transform')
+    # plt.subplot(311)
+    # plt.title('Fourier transform')
+    #
+    # h_fxs, h_fys = get_human_representation_of_function(get_positive_xs_domain(fys), fys)
+    #
+    # plt.plot(np.real(h_fys), color="blue", label="Re")
+    # plt.plot(np.imag(h_fys), color="red", label="Im")
+    # plt.plot(np.sqrt(np.real(h_fys) ** 2 + np.imag(h_fys) ** 2), color="green", label="module")
+    # plt.legend()
 
-    h_fs, h_fys = get_human_representation_of_function(get_positive_xs_domain(fys), fys)
-
-    plt.plot(h_fs, np.real(h_fys), color="blue", label="Re")
-    plt.plot(h_fs, np.imag(h_fys), color="red", label="Im")
-    plt.plot(h_fs, np.sqrt(np.real(h_fys) ** 2 + np.imag(h_fys) ** 2), color="green", label="module")
-    plt.legend()
-
-    plt.subplot(312)
+    plt.subplot(211)
     plt.title('Characteristic function')
-    h_xs, h_ys = get_human_representation_of_function(xs, ys)
+    h_fs, h_ys = get_human_representation_of_function(fs, fts)
 
-    plt.plot(h_xs, np.real(h_ys), color="blue", label="Re")
-    plt.plot(h_xs, np.imag(h_ys), color="red", label="Im")
-    plt.plot(h_xs, np.sqrt(np.real(h_ys) ** 2 + np.imag(h_ys) ** 2), color="green", label="module")
+    plt.plot(h_fs, np.real(h_ys), color="blue", label="Re")
+    plt.plot(h_fs, np.imag(h_ys), color="red", label="Im")
+    plt.plot(h_fs, np.sqrt(np.real(h_ys) ** 2 + np.imag(h_ys) ** 2), color="green", label="module")
     plt.legend()
 
-    plt.subplot(313)
+    plt.subplot(212)
     plt.title('Rebuilt pdf')
 
-    h_iys, h_iys = get_human_representation_of_function(get_positive_xs_domain(iys), iys)
+    h_ixs, h_iys = get_human_representation_of_function(get_positive_xs_domain(iys), iys)
 
-    plt.plot(h_iys, np.real(h_iys), color="blue", label="Re")
-    plt.plot(h_iys, np.imag(h_iys), color="red", label="Im")
-    plt.plot(h_iys, np.sqrt(np.real(h_iys) ** 2 + np.imag(h_iys) ** 2), color="green", label="module")
+    plt.plot(np.real(h_iys), color="blue", label="Re")
+    plt.plot(np.imag(h_iys), color="red", label="Im")
+    plt.plot(np.sqrt(np.real(h_iys) ** 2 + np.imag(h_iys) ** 2), color="green", label="module")
+
+    # h_xs = get_human_representation_of_xs(fs)
+    # plt.plot(norm.pdf(h_xs), color="black",ls='dashed', label="true pdf")
+
     plt.legend()
 
     print "Enjoy the plot!"
-    plt.show() 
+    plt.show()
