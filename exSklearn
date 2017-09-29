@@ -1,0 +1,14 @@
+import numpy as np
+from sklearn import linear_model
+
+x = np.array([[1, 6, 9],
+              [2, 7, 7],
+              [3, 4, 5]])
+y = np.array([96, 90, 64])
+
+clf = linear_model.LinearRegression(fit_intercept=False)
+clf.fit(x, y)
+print clf.coef_
+print np.dot(x, clf.coef_)
+
+
