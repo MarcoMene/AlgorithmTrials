@@ -84,4 +84,4 @@ if __name__ == "__main__":
     plt.legend()
 
     print "Enjoy the plot!"
-    plt.show()
+    plt.show() 
