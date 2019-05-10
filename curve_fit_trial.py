@@ -28,14 +28,14 @@ plt.plot(xdata, exponential_plus_constant(xdata, *popt), 'g--', label='fit-with-
 popt2, pcov2 = curve_fit(exponential_plus_constant, xdata, ydata, bounds=(0, [1., 100., 1.]), absolute_sigma=True, sigma=(0.2 * y))
 plt.plot(xdata, exponential_plus_constant(xdata, *popt2), 'y--', label='fit-with-bounds-and-sigmas-absolute_sigma=True')
 
-print "Foreseen value @ {}:".format(81)
-print exponential_plus_constant(81, *popt)
+print("Foreseen value @ {}:".format(81))
+print( exponential_plus_constant(81, *popt))
 
-print "Foreseen value @ {}:".format(8100)
-print exponential_plus_constant(8100, *popt)
+print( "Foreseen value @ {}:".format(8100))
+print( exponential_plus_constant(8100, *popt))
 
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
-print "Enjoy the plot!"
+print("Enjoy the plot!")
 plt.show()
