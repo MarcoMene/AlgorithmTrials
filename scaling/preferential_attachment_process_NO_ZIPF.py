@@ -4,7 +4,7 @@ import numpy as np
 from numpy.random import multinomial
 
 T = 10000  # time steps
-N = 10000  # subjects
+N = 1000  # subjects
 alpha = 100  # unit of wealth
 
 wealth = multinomial(alpha, [1 / N] * N)  # first assignment random
