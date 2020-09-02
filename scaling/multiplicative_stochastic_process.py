@@ -1,33 +1,49 @@
 import matplotlib.pyplot as plt
-from numpy import log10
+from numpy import log10, log
 import numpy as np
 from numpy.random import multinomial
 
 from distrubutions.gamma_distribution import _compute_params_gamma
 
-T = 10000  # time steps
-N = 10000  # subjects
-alpha = 100000  # unit of wealth
-alpha0 = 1  # minimum wealth
+T = 3000  # time steps
+N = 1000  # subjects
+w_th = 100000  # unit of wealth
+w0 = 0.5  # minimum wealth
+
+print(f"theoretical alpha exponent: {-1-1/(1-w0)}")
 
 # mumtiplicative factor distribution
 mean_l = 1.01
-sigma_l = 0.02
+sigma_l = 0.01
 shape, scale = _compute_params_gamma(mean_l, sigma_l)
 
 
-wealth = multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
+wealth = np.array([1]*N) # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
 for t in range(1, T):
     if t % 1000 == 0:
         print(f"iteration {t}")
     s = np.random.gamma(shape, scale, N)
+    # s = np.random.normal(mean_l, sigma_l, N)
     wealth = wealth * s
-    alpha = wealth.sum()/N
-    wealth[wealth < alpha] = alpha
+    wealth = wealth * N / wealth.sum()
+
+    w_mean = wealth.sum() / N
+    w_th = w_mean * w0
+    wealth[wealth < w_th] = w_th
+    wealth = wealth * N / wealth.sum()
+
+print(f"lower cutoff  w0 * w_mean: {w_th}")
+
+# ML fit to alpha exponent
+w_min = wealth.min()
+alpha_hat = 1 + N / log(wealth/w_min).sum()
+print(f"fitted alpha exponent: {-alpha_hat}")
+
+
 
 plt.figure(1)
 plt.title("wealth fraction distribution")
-count, bins, ignored = plt.hist( wealth/ wealth.sum(), bins=100)  #
+count, bins, ignored = plt.hist( wealth, bins=100)  #
 # count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
 # plt.xscale('log')
 # plt.yscale('log')
@@ -37,14 +53,14 @@ plt.ylabel("count")
 plt.figure(2)
 plt.title("wealth fraction distribution log-log")
 # count, bins, ignored = plt.hist( wealth/ wealth.sum() , bins=100)  # / wealth.sum()
-count, bins, ignored = plt.hist( log10(wealth / wealth.sum())) #, bins=100)
+count, bins, ignored = plt.hist( log10(wealth )) #, bins=100)
 # plt.xscale('log')
 plt.yscale('log')
 plt.xlabel("log wealth")
 plt.ylabel("log count")
 
 # transform to rank
-log_s = -np.sort(-log10(wealth/ wealth.sum()))
+log_s = -np.sort(-log10(wealth))
 rank = np.array(range(len(log_s))) + 1
 log_rank = log10(rank)
 #

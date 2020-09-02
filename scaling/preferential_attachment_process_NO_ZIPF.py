@@ -3,7 +3,7 @@ from numpy import log10
 import numpy as np
 from numpy.random import multinomial
 
-T = 10000  # time steps
+T = 100000  # time steps
 N = 1000  # subjects
 alpha = 100  # unit of wealth
 
@@ -27,9 +27,9 @@ count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
 
 plt.figure(2)
 plt.title("wealth fraction distribution log-log")
-count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
-# count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
-plt.xscale('log')
+# count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
+count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
+# plt.xscale('log')
 plt.yscale('log')
 
 # transform to rank
