@@ -5,11 +5,12 @@ from numpy.random import multinomial
 
 from distrubutions.gamma_distribution import _compute_params_gamma
 
-T = 3000  # time steps
+T = 50000  # time steps
 N = 1000  # subjects
 w_th = 100000  # unit of wealth
-w0 = 0.5  # minimum wealth
+w0 = 0.285  # minimum wealth
 
+print(f"theoretical temperature T: {1-w0}")
 print(f"theoretical alpha exponent: {-1-1/(1-w0)}")
 
 # mumtiplicative factor distribution
@@ -19,12 +20,14 @@ shape, scale = _compute_params_gamma(mean_l, sigma_l)
 
 
 wealth = np.array([1]*N) # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
+timeseries_log_returns = []
 for t in range(1, T):
     if t % 1000 == 0:
         print(f"iteration {t}")
     s = np.random.gamma(shape, scale, N)
     # s = np.random.normal(mean_l, sigma_l, N)
     wealth = wealth * s
+    timeseries_log_returns.append( log(s).mean() )
     wealth = wealth * N / wealth.sum()
 
     w_mean = wealth.sum() / N
@@ -32,11 +35,16 @@ for t in range(1, T):
     wealth[wealth < w_th] = w_th
     wealth = wealth * N / wealth.sum()
 
-print(f"lower cutoff  w0 * w_mean: {w_th}")
+
+w_cutoff = w0 * wealth.sum() / N
+print(f"lower cutoff  w0 * w_mean: { w_cutoff }")
 
 # ML fit to alpha exponent
 w_min = wealth.min()
-alpha_hat = 1 + N / log(wealth/w_min).sum()
+# w_min = w_cutoff
+
+w_for_fit = wealth[wealth>= w_min]
+alpha_hat = 1 + w_for_fit.size / log(w_for_fit/w_min).sum()
 print(f"fitted alpha exponent: {-alpha_hat}")
 
 
@@ -72,5 +80,10 @@ plt.figure(3)
 plt.plot(log_rank, log_s) #, 'yo', log_rank, poly1d_fn(log_rank), '--k')
 plt.xlabel("log rank")
 plt.ylabel("log wealth")
+
+plt.figure(4)
+plt.plot(timeseries_log_returns)
+plt.xlabel("time step")
+plt.ylabel("mean wealth")
 
 plt.show()
