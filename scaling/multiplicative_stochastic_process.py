@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from numpy import log10, log
 import numpy as np
 from numpy.random import multinomial
+from scipy import signal
+
 
 from distrubutions.gamma_distribution import _compute_params_gamma
 
@@ -27,7 +29,8 @@ for t in range(1, T):
     s = np.random.gamma(shape, scale, N)
     # s = np.random.normal(mean_l, sigma_l, N)
     wealth = wealth * s
-    timeseries_log_returns.append( log(s).mean() )
+    # timeseries_log_returns.append( log(s).mean() )
+    timeseries_log_returns.append( s[-1] )
     wealth = wealth * N / wealth.sum()
 
     w_mean = wealth.sum() / N
@@ -85,5 +88,12 @@ plt.figure(4)
 plt.plot(timeseries_log_returns)
 plt.xlabel("time step")
 plt.ylabel("mean wealth")
+
+# plt.figure(5)
+# f, Pxx_den = signal.periodogram(timeseries_log_returns)
+# plt.loglog(f, Pxx_den)
+# plt.xlabel('frequency')
+# plt.ylabel('PSD')
+
 
 plt.show()

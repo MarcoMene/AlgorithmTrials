@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
-from statsmodels.graphics.tsaplots import plot_acf
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import colorednoise as cn
 
-beta = 1  # the exponent  1: pink
-# beta = 0.5  # the exponent  2: brown
-s = cn.powerlaw_psd_gaussian(beta, 1000000)
+# beta = 1  # the exponent  1: pink
+beta = 2  # the exponent  2: brown
+s = cn.powerlaw_psd_gaussian(beta, 10000)
+# s = np.diff(s)
 
 plt.figure(1)
 count, bins, ignored = plt.hist(s, 50, normed=True)
@@ -23,6 +24,6 @@ plt.loglog(f, Pxx_den)
 plt.xlabel('frequency')
 plt.ylabel('PSD')
 
-plot_acf(s)
+plot_pacf(s)
 
 plt.show()
