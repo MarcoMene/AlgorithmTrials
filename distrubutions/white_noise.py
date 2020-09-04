@@ -16,9 +16,11 @@ plt.figure(1)
 count, bins, ignored = plt.hist(s, 50, normed=True)
 plt.yscale('log')
 
+#  timeseries
 plt.figure(2)
 plt.plot(s)
 
+# spectral density (power spectrum)
 plt.figure(3)
 f, Pxx_den = signal.periodogram(s)
 plt.semilogy(f, Pxx_den)
