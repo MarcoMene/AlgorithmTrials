@@ -8,7 +8,7 @@ from scipy import signal
 from distrubutions.gamma_distribution import _compute_params_gamma
 
 T = 50000  # time steps
-N = 1000  # subjects
+N = 10000  # subjects
 w_th = 100000  # unit of wealth
 w0 = 0.285  # minimum wealth
 
@@ -23,6 +23,7 @@ shape, scale = _compute_params_gamma(mean_l, sigma_l)
 
 wealth = np.array([1]*N) # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
 timeseries_log_returns = []
+time_of_last_lower_bound_hit = np.array([0]* N)
 for t in range(1, T):
     if t % 1000 == 0:
         print(f"iteration {t}")
@@ -35,9 +36,13 @@ for t in range(1, T):
 
     w_mean = wealth.sum() / N
     w_th = w_mean * w0
+
+    time_of_last_lower_bound_hit[wealth < w_th] = t
+
     wealth[wealth < w_th] = w_th
     wealth = wealth * N / wealth.sum()
 
+time_since_last_lower_bound_hit = T - time_of_last_lower_bound_hit
 
 w_cutoff = w0 * wealth.sum() / N
 print(f"lower cutoff  w0 * w_mean: { w_cutoff }")
@@ -84,16 +89,26 @@ plt.plot(log_rank, log_s) #, 'yo', log_rank, poly1d_fn(log_rank), '--k')
 plt.xlabel("log rank")
 plt.ylabel("log wealth")
 
-plt.figure(4)
-plt.plot(timeseries_log_returns)
-plt.xlabel("time step")
-plt.ylabel("mean wealth")
+# plt.figure(4)
+# plt.plot(timeseries_log_returns)
+# plt.xlabel("time step")
+# plt.ylabel("mean wealth")
 
 # plt.figure(5)
 # f, Pxx_den = signal.periodogram(timeseries_log_returns)
 # plt.loglog(f, Pxx_den)
 # plt.xlabel('frequency')
 # plt.ylabel('PSD')
+
+
+plt.figure(5)
+plt.title("time_since_last_lower_bound_hit distribution")
+count, bins, ignored = plt.hist( time_since_last_lower_bound_hit/T, bins=50)  #
+# plt.xscale('log')
+plt.yscale('log')
+plt.xlabel("time_since_last_lower_bound_hit")
+plt.ylabel("log count")
+
 
 
 plt.show()
