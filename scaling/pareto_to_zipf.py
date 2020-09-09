@@ -2,20 +2,22 @@ import matplotlib.pyplot as plt
 from numpy import log10
 import numpy as np
 
-a, m = 2.1, 1.  # shape and mode
-s = np.random.pareto(a, 10000) + m
+a, m = 1.3, 1.  # shape and mode
+s = np.random.pareto(a, 1000000) + m
 
 # pareto
 count, bins, ignored = plt.hist(s, 1000, normed=True)
 fit = a * m ** a / bins ** (a + 1)
 
 plt.figure(1)
+plt.title(f"Pareto dstr linear a: {a}")
 plt.plot(bins, max(count) * fit / max(fit), linewidth=2, color='r')
 # plt.xscale('log')
 plt.yscale('log')
 
 plt.figure(2)
-plt.hist(log10(s), 1000, normed=True)
+plt.title(f"Pareto dstr log-log a: {a}")
+plt.hist(log10(s), 100, normed=True)
 # plt.xscale('log')
 plt.yscale('log')
 

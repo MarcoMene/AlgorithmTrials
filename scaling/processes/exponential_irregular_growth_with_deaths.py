@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-from numpy import log10, log, exp
+from numpy import log10, log, exp, sqrt
 import numpy as np
-from numpy.random import exponential, multinomial
+from numpy.random import exponential, multinomial, normal, lognormal
 from scipy import signal
 from distrubutions.gamma_distribution import _compute_params_gamma
 # mumtiplicative factor distribution
@@ -14,15 +14,9 @@ T_death = 1
 N = 100000 # subjects
 
 death_times = exponential(T_death, N)
-sizes_when_they_die = exp(death_times/T_growth)  # deterministic transform
-
-# probabilistic transform
-# sizes_when_they_die = []
-# for td in death_times:
-#     factors = np.random.gamma(shape, scale, int(round(td)))
-#     f = factors.cumprod()[-1] if len(factors) > 1 else 1
-#     sizes_when_they_die.append(f)
-
+# sizes_when_they_die = exp( lognormal(mean=death_times/T_growth, sigma=0.1*sqrt(death_times/T_growth)  )   )  # scale is extracted from an exp distr
+# sizes_when_they_die = exp( lognormal(mean=death_times/T_growth, sigma=0.1*sqrt(death_times/T_growth)  )   )  # scale is extracted from an exp distr
+sizes_when_they_die = exp( exponential(death_times/T_growth)   )  # scale is extracted from an exp distr
 
 plt.figure(1)
 plt.title("sizes_when_they_die distribution")

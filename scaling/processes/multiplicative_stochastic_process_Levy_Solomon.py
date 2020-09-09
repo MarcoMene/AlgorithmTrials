@@ -7,10 +7,9 @@ from scipy import signal
 
 from distrubutions.gamma_distribution import _compute_params_gamma
 
-T = 50000  # time steps
-N = 10000  # subjects
-w_th = 100000  # unit of wealth
-w0 = 0.285  # minimum wealth
+T = 10000  # time steps
+N = 100000  # subjects
+w0 = 0.8  # minimum wealth
 
 print(f"theoretical temperature T: {1-w0}")
 print(f"theoretical alpha exponent: {-1-1/(1-w0)}")
@@ -69,7 +68,7 @@ plt.ylabel("count")
 plt.figure(2)
 plt.title("wealth fraction distribution log-log")
 # count, bins, ignored = plt.hist( wealth/ wealth.sum() , bins=100)  # / wealth.sum()
-count, bins, ignored = plt.hist( log10(wealth )) #, bins=100)
+count, bins, ignored = plt.hist( log10(wealth ), bins=100)
 # plt.xscale('log')
 plt.yscale('log')
 plt.xlabel("log wealth")
