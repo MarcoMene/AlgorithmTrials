@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
-from numpy import log10, log
+from numpy import log10
 import numpy as np
-from numpy.random import multinomial
-from scipy import signal
-
 
 from distrubutions.gamma_distribution import _compute_params_gamma
+from scaling.power_law import fit_pareto_alpha
 
 T = 10000  # time steps
 N = 100000  # subjects
@@ -46,15 +44,8 @@ time_since_last_lower_bound_hit = T - time_of_last_lower_bound_hit
 w_cutoff = w0 * wealth.sum() / N
 print(f"lower cutoff  w0 * w_mean: { w_cutoff }")
 
-# ML fit to alpha exponent
-w_min = wealth.min()
-# w_min = w_cutoff
-
-w_for_fit = wealth[wealth>= w_min]
-alpha_hat = 1 + w_for_fit.size / log(w_for_fit/w_min).sum()
+alpha_hat = fit_pareto_alpha()
 print(f"fitted alpha exponent: {-alpha_hat}")
-
-
 
 plt.figure(1)
 plt.title("wealth fraction distribution")

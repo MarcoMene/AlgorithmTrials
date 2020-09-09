@@ -3,6 +3,8 @@ from numpy import log10
 import numpy as np
 from numpy.random import multinomial
 
+from scaling.power_law import pareto_occurencies_to_zipf
+
 T = 100000  # time steps
 N = 1000  # subjects
 alpha = 100  # unit of wealth
@@ -16,11 +18,12 @@ for t in range(1, T):
     # assignment with hard preferential attachment
     # wealth += multinomial(alpha, wealth / wealth.sum())
     # assignment with partial preferential attachment
-    wealth += multinomial(alpha, ( wealth/wealth.sum() * (alpha * t) + np.array([1 / N] * N) * alpha ) / (alpha * (t + 1)  ) )
+    wealth += multinomial(alpha,
+                          (wealth / wealth.sum() * (alpha * t) + np.array([1 / N] * N) * alpha) / (alpha * (t + 1)))
 
 plt.figure(1)
 plt.title("wealth fraction distribution")
-count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
+count, bins, ignored = plt.hist(wealth / wealth.sum(), bins=100)
 # count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
 # plt.xscale('log')
 # plt.yscale('log')
@@ -28,20 +31,14 @@ count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
 plt.figure(2)
 plt.title("wealth fraction distribution log-log")
 # count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
-count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
+count, bins, ignored = plt.hist(log10(wealth[wealth > 0] / wealth.sum()))  # , bins=100)
 # plt.xscale('log')
 plt.yscale('log')
 
-# transform to rank
-log_s = -np.sort(-log10(wealth))
-rank = np.array(range(len(log_s))) + 1
-log_rank = log10(rank)
-#
-# coef = np.polyfit(log_rank, log_s, 1)
-# poly1d_fn = np.poly1d(coef)
+log_rank, log_s = pareto_occurencies_to_zipf()
 
 plt.figure(3)
 # plt.scatter(log_rank, log_s)
-plt.plot(log_rank, log_s) #, 'yo', log_rank, poly1d_fn(log_rank), '--k')
+plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
 
 plt.show()

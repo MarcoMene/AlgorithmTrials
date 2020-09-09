@@ -1,29 +1,38 @@
 import matplotlib.pyplot as plt
 from numpy import log10, log, exp, sqrt
 import numpy as np
-from numpy.random import exponential, multinomial, normal, geometric
+from numpy.random import exponential, multinomial, normal, geometric, poisson, lognormal
+from scaling.power_law import fit_pareto_alpha, pareto_occurencies_to_zipf
 
 # parameters
-k0 = 1  # initial wealth
+k0 = 10  # initial wealth
 c = 0  # initial bias in  wealth
 m = 10  # new wealth per time-step
 
-T = 100000
+T = 10000
 
 wealth = np.array([k0 + c])
 for t in range(T):
     wealth = np.append(wealth, k0 + c)
-    wealth += multinomial(m, wealth/wealth.sum())
+    wealth += multinomial(poisson(m), wealth / wealth.sum())
+    # wealth += multinomial(int(round(lognormal(m, sqrt(m)))), wealth / wealth.sum())  # <-- no Yule
 
-print(f"theoretical exponent alpha {2 + (k0 + c)/m}")
+print(f"theoretical exponent alpha {2 + (k0 + c) / m}")
 
-# ML fit to alpha exponent  # TODO: build a function
-w_min = 10
+# ML fit to alpha exponent
+w_min = 10**1.6
+alpha_hat, alpha_hat_err = fit_pareto_alpha(wealth, x_min=w_min, return_error=True)
+print(f"fitted alpha exponent: {alpha_hat} ± {alpha_hat_err}")
 
-w_for_fit = wealth[wealth>= w_min]
-alpha_hat = 1 + w_for_fit.size / log(w_for_fit/w_min).sum()
-print(f"fitted alpha exponent: {alpha_hat} ± {(alpha_hat - 1)/sqrt(w_for_fit.size)}")
 
+plt.figure(0)
+plt.title("wealth distribution")
+count, bins, ignored = plt.hist(wealth, bins=1000)  #
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel("wealth")
+plt.ylabel("count")
+plt.grid()
 
 
 plt.figure(1)
@@ -33,16 +42,16 @@ count, bins, ignored = plt.hist(log10(wealth), bins=100)  #
 plt.yscale('log')
 plt.xlabel("log wealth")
 plt.ylabel("log count")
+plt.grid()
 
 # # transform to rank
-log_s = -np.sort(-log10(wealth))
-rank = np.array(range(len(log_s))) + 1
-log_rank = log10(rank)
+log_rank, log_s = pareto_occurencies_to_zipf(wealth)
 
 plt.figure(2)
 # plt.scatter(log_rank, log_s)
 plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
 plt.xlabel("log rank")
 plt.ylabel("log wealth")
+plt.grid()
 
 plt.show()
