@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from numpy import log10
 import numpy as np
 
-from distrubutions.gamma_distribution import _compute_params_gamma
+from distrubutions.gamma_distribution import compute_params_gamma
 from scaling.power_law import fit_pareto_alpha
 
 T = 10000  # time steps
@@ -15,7 +15,7 @@ print(f"theoretical alpha exponent: {-1-1/(1-w0)}")
 # mumtiplicative factor distribution
 mean_l = 1.01
 sigma_l = 0.01
-shape, scale = _compute_params_gamma(mean_l, sigma_l)
+shape, scale = compute_params_gamma(mean_l, sigma_l)
 
 
 wealth = np.array([1]*N) # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random

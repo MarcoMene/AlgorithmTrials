@@ -4,7 +4,7 @@ import numpy as np
 from numpy.random import multinomial
 from scipy import signal
 
-from distrubutions.gamma_distribution import _compute_params_gamma
+from distrubutions.gamma_distribution import compute_params_gamma
 
 T = 5000  # time steps
 N = 1000  # subjects

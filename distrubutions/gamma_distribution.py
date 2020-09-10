@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.special as sps
 
 
-def _compute_params_gamma(x: float, sx: float):
+def compute_params_gamma(x: float, sx: float):
     """ Computes the parameters of a gamma distribution with mean x and
     standard deviation sx. The names used in the dictionary as output are the
     ones used by the scipy.stats module.
@@ -17,7 +17,7 @@ def _compute_params_gamma(x: float, sx: float):
 
 
 if __name__ == "__main__":
-    shape, scale = _compute_params_gamma(1., 0.01)
+    shape, scale = compute_params_gamma(1., 0.01)
     s = np.random.gamma(shape, scale, 1000)
 
     count, bins, ignored = plt.hist(s, 50, normed=True)

@@ -3,11 +3,11 @@ from numpy import log10, log, exp
 import numpy as np
 from numpy.random import exponential, multinomial
 from scipy import signal
-from distrubutions.gamma_distribution import _compute_params_gamma
+from distrubutions.gamma_distribution import compute_params_gamma
 # mumtiplicative factor distribution
 mean_l = 1.01
 sigma_l = 0.01
-shape, scale = _compute_params_gamma(mean_l, sigma_l)
+shape, scale = compute_params_gamma(mean_l, sigma_l)
 
 T_growth = 100
 T_death = 1
