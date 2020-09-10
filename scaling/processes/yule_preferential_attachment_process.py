@@ -5,17 +5,22 @@ from numpy.random import exponential, multinomial, normal, geometric, poisson, l
 from scaling.power_law import fit_pareto_alpha, pareto_occurencies_to_zipf
 
 # parameters
-k0 = 10  # initial wealth
+k0 = 1  # initial wealth
 c = 0  # initial bias in  wealth
 m = 10  # new wealth per time-step
 
-T = 10000
+T = 100000
 
 wealth = np.array([k0 + c])
 for t in range(T):
     wealth = np.append(wealth, k0 + c)
     wealth += multinomial(poisson(m), wealth / wealth.sum())
+    # wealth += multinomial(int(exponential(m)), wealth / wealth.sum())
     # wealth += multinomial(int(round(lognormal(m, sqrt(m)))), wealth / wealth.sum())  # <-- no Yule
+
+    # uniform assignment
+    # wealth += multinomial(int(exponential(m)), [1/len(wealth)] * len(wealth))
+
 
 print(f"theoretical exponent alpha {2 + (k0 + c) / m}")
 
