@@ -10,6 +10,9 @@ def pareto_occurencies_to_zipf(xs):
 
 
 def fit_pareto_alpha(xs, x_min=None, return_error=False):
+
+    if isinstance(xs, list):
+        xs = np.array(xs)
     # ML fit to alpha exponent
     x_min = x_min or xs.min()
     xs_for_fit = xs[xs >= x_min]

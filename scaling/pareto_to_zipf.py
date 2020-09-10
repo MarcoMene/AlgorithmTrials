@@ -4,8 +4,8 @@ import numpy as np
 
 from scaling.power_law import fit_pareto_alpha
 
-a, m = 3., 1.  # shape and mode
-s = np.random.pareto(a, 1000000) + m    # x ~ x ^ - (a + 1)
+a, m = 0.1, 1.  # shape and mode
+s = np.random.pareto(a, 100) + m    # x ~ x ^ - (a + 1)
 
 # pareto
 count, bins, ignored = plt.hist(s, 1000, normed=True)
