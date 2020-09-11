@@ -18,7 +18,7 @@ for t in range(1, T):
     if t % 1000 == 0:
         print(f"iteration {t}")
     s = np.random.normal(mean_add, std_add, N)
-    wealth = wealth * ( 1 + s )
+    wealth = wealth * (1 + s)
 
 
 plt.figure(1)
@@ -34,9 +34,9 @@ plt.figure(2)
 plt.title("wealth fraction distribution log - log")
 # count, bins, ignored = plt.hist( wealth/ wealth.sum() , bins=100)  # / wealth.sum()
 # count, bins, ignored = plt.hist(wealth)  # , bins=100)
-count, bins, ignored = plt.hist( log10(wealth )) #, bins=100)
+count, bins, ignored = plt.hist(log10(wealth))  # , bins=100)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("log wealth")
 plt.ylabel("log count")
 

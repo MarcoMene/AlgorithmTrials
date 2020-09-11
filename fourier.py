@@ -5,7 +5,9 @@ from numpy import vectorize
 
 
 def gaussian(x, mu, sigma):
-    return np.exp(-(x - mu) ** 2 / (2. * sigma ** 2)) / (np.sqrt(2.0 * np.pi) * sigma)
+    return np.exp(-((x - mu) ** 2) / (2.0 * sigma ** 2)) / (
+        np.sqrt(2.0 * np.pi) * sigma
+    )
 
 
 def _finite_pulse(x, a=1):
@@ -27,6 +29,7 @@ def get_human_representation_of_xs(xs):
     """
     return np.concatenate([-xs[::-1][:-1], xs])
 
+
 def get_human_representation_of_function(xs, ys):
     """
     accepts fft formatted data as ys
@@ -34,7 +37,7 @@ def get_human_representation_of_function(xs, ys):
     """
     xs = get_human_representation_of_xs(xs)
     n = len(ys)
-    ys = np.concatenate([ys[(n // 2 + 1):], ys[:(n // 2 + 1)]])
+    ys = np.concatenate([ys[(n // 2 + 1) :], ys[: (n // 2 + 1)]])
     return xs, ys
 
 
@@ -46,7 +49,7 @@ finite_pulse = vectorize(_finite_pulse)
 
 if __name__ == "__main__":
     xs = np.linspace(0, 10, 200)
-    ys = format_function_for_fft(gaussian, xs, mu=0, sigma=.05)
+    ys = format_function_for_fft(gaussian, xs, mu=0, sigma=0.05)
 
     fys = fft(ys)
     iys = ifft(fys)
@@ -60,7 +63,12 @@ if __name__ == "__main__":
     plt.subplot(211)
     plt.plot(h_fs, np.real(h_fys), color="blue", label="Re")
     plt.plot(h_fs, np.imag(h_fys), color="red", label="Im")
-    plt.plot(h_fs, np.sqrt(np.real(h_fys) ** 2 + np.imag(h_fys) ** 2), color="green", label="module")
+    plt.plot(
+        h_fs,
+        np.sqrt(np.real(h_fys) ** 2 + np.imag(h_fys) ** 2),
+        color="green",
+        label="module",
+    )
     plt.legend()
 
     plt.subplot(212)

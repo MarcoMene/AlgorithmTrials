@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 
-def gaussian_ratio_cdf(t, mu1=0., mu2=0., s1=1., s2=1., correlation=0.0):
+def gaussian_ratio_cdf(t, mu1=0.0, mu2=0.0, s1=1.0, s2=1.0, correlation=0.0):
     """
     This is valid only for ratio of positive quantities.
 
@@ -14,7 +14,9 @@ def gaussian_ratio_cdf(t, mu1=0., mu2=0., s1=1., s2=1., correlation=0.0):
     cov_term = 0.0
     if correlation != 0.0:
         cov_term = 2 * t * correlation * s1 * s2
-    return norm.cdf((t * mu2 - mu1) / np.sqrt(s1 ** 2 - cov_term + (t ** 2) * (s2 ** 2)))
+    return norm.cdf(
+        (t * mu2 - mu1) / np.sqrt(s1 ** 2 - cov_term + (t ** 2) * (s2 ** 2))
+    )
 
 
 class GaussianRatioDistribution(rv_continuous):
@@ -25,7 +27,9 @@ class GaussianRatioDistribution(rv_continuous):
 def get_ratio_confidence_interval(mu1, mu2, s1, s2, confidence=0.95):
     my_dist = GaussianRatioDistribution()
 
-    bounds = my_dist.ppf(np.array([1 - confidence, confidence]), mu1=mu1, mu2=mu2, s1=s1, s2=s2)
+    bounds = my_dist.ppf(
+        np.array([1 - confidence, confidence]), mu1=mu1, mu2=mu2, s1=s1, s2=s2
+    )
     return tuple(bounds)
 
 
@@ -33,7 +37,7 @@ xs = np.linspace(-10, 10, 200)
 
 mu1 = 1.2
 s1 = 0.1
-mu2 = 1.
+mu2 = 1.0
 s2 = 0.15
 
 ci = get_ratio_confidence_interval(mu1, mu2, s1, s2, confidence=0.68)

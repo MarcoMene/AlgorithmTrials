@@ -28,17 +28,17 @@ print(f"fitted alpha exponent: {alpha_hat} ± {alpha_hat_err}")
 plt.figure(0)
 plt.title("waiting_times distribution")
 count, bins, ignored = plt.hist(waiting_times, bins=1000)  #
-plt.xscale('log')
-plt.yscale('log')
+plt.xscale("log")
+plt.yscale("log")
 plt.xlabel("waiting_times")
 plt.ylabel("count")
 plt.grid()
 
 plt.figure(1)
 plt.title("waiting_times distribution")
-count, bins, ignored = plt.hist(log10(waiting_times)) #, bins=100)  #
+count, bins, ignored = plt.hist(log10(waiting_times))  # , bins=100)  #
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("log waiting_times")
 plt.ylabel("log count")
 plt.grid()

@@ -11,7 +11,7 @@ s = cn.powerlaw_psd_gaussian(beta, 10000)
 
 plt.figure(1)
 count, bins, ignored = plt.hist(s, 50, normed=True)
-plt.yscale('log')
+plt.yscale("log")
 
 plt.figure(2)
 plt.plot(s)
@@ -21,8 +21,8 @@ f, Pxx_den = signal.periodogram(s)
 # plt.semilogy(f, Pxx_den)
 plt.loglog(f, Pxx_den)
 # plt.ylim([1e-7, 1e2])
-plt.xlabel('frequency')
-plt.ylabel('PSD')
+plt.xlabel("frequency")
+plt.ylabel("PSD")
 
 plot_pacf(s)
 

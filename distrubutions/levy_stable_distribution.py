@@ -14,11 +14,13 @@ x = np.linspace(0.001, 500, 100)
 r = levy_stable.rvs(alpha, beta, size=100000)
 
 
-count, bins, ignored = plt.hist(log10(abs(r)), 100, normed=True, label='levy_stable sampling')
+count, bins, ignored = plt.hist(
+    log10(abs(r)), 100, normed=True, label="levy_stable sampling"
+)
 #
 # plt.figure(1)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.legend()
 
 plt.show()

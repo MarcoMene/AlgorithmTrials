@@ -18,7 +18,7 @@ print(f"theoretical alpha exponent: {1 + 1 / (1 - w0)}")
 Sts = []
 time_of_last_lower_bound_hit = np.array([0] * N)
 for n in range(N):
-    St = 1.
+    St = 1.0
     for t in range(1, T + 1):
         dW1 = sigma_1 * np.random.normal()
         St += St * (mu + dW1)
@@ -60,7 +60,7 @@ plt.ylabel("count")
 plt.figure(2)
 plt.title("St distribution log-log")
 count, bins, ignored = plt.hist(log10(Sts), bins=100)
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("log St")
 plt.ylabel("log count")
 
@@ -76,7 +76,7 @@ plt.grid()
 plt.figure(4)
 plt.title("time_since_last_lower_bound_hit distribution")
 count, bins, ignored = plt.hist(time_since_last_lower_bound_hit / T, bins=50)  #
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("time_since_last_lower_bound_hit")
 plt.ylabel("log count")
 

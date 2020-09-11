@@ -25,7 +25,7 @@ for t in range(T):
 print(f"theoretical exponent alpha {2 + (k0 + c) / m}")
 
 # ML fit to alpha exponent
-w_min = 10**1.6
+w_min = 10 ** 1.6
 alpha_hat, alpha_hat_err = fit_pareto_alpha(wealth, x_min=w_min, return_error=True)
 print(f"fitted alpha exponent: {alpha_hat} ± {alpha_hat_err}")
 
@@ -33,8 +33,8 @@ print(f"fitted alpha exponent: {alpha_hat} ± {alpha_hat_err}")
 plt.figure(0)
 plt.title("wealth distribution")
 count, bins, ignored = plt.hist(wealth, bins=1000)  #
-plt.xscale('log')
-plt.yscale('log')
+plt.xscale("log")
+plt.yscale("log")
 plt.xlabel("wealth")
 plt.ylabel("count")
 plt.grid()
@@ -44,7 +44,7 @@ plt.figure(1)
 plt.title("wealth distribution")
 count, bins, ignored = plt.hist(log10(wealth), bins=100)  #
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("log wealth")
 plt.ylabel("log count")
 plt.grid()

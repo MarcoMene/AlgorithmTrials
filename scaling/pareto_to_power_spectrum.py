@@ -14,7 +14,7 @@ t_min, t_max = pareto.ppf(0.01, b), pareto.ppf(0.99, b)
 ts = np.linspace(t_min, t_max, 100)
 
 plt.figure(1)
-plt.loglog(ts, pareto.pdf(ts, b), 'r-', lw=5, alpha=0.6, label='pareto pdf')
+plt.loglog(ts, pareto.pdf(ts, b), "r-", lw=5, alpha=0.6, label="pareto pdf")
 
 
 def S(f, N=500):
@@ -30,6 +30,8 @@ def S(f, N=500):
 fs = np.linspace(0.001, 1, 100)
 
 plt.figure(2)
-plt.loglog(fs, [S(f) for f in fs], 'r-', lw=5, alpha=0.6, label='S(f) as rebuilt from S.O.C.')
+plt.loglog(
+    fs, [S(f) for f in fs], "r-", lw=5, alpha=0.6, label="S(f) as rebuilt from S.O.C."
+)
 
 plt.show()

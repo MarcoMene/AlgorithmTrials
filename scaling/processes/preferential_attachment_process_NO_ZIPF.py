@@ -18,8 +18,11 @@ for t in range(1, T):
     # assignment with hard preferential attachment
     # wealth += multinomial(alpha, wealth / wealth.sum())
     # assignment with partial preferential attachment
-    wealth += multinomial(alpha,
-                          (wealth / wealth.sum() * (alpha * t) + np.array([1 / N] * N) * alpha) / (alpha * (t + 1)))
+    wealth += multinomial(
+        alpha,
+        (wealth / wealth.sum() * (alpha * t) + np.array([1 / N] * N) * alpha)
+        / (alpha * (t + 1)),
+    )
 
 plt.figure(1)
 plt.title("wealth fraction distribution")
@@ -33,7 +36,7 @@ plt.title("wealth fraction distribution log-log")
 # count, bins, ignored = plt.hist( wealth / wealth.sum(), bins=100)
 count, bins, ignored = plt.hist(log10(wealth[wealth > 0] / wealth.sum()))  # , bins=100)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 
 log_rank, log_s = pareto_occurencies_to_zipf()
 

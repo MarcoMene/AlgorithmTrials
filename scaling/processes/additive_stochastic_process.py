@@ -50,7 +50,7 @@ plt.title("wealth fraction distribution semi log")
 count, bins, ignored = plt.hist(wealth)  # , bins=100)
 # count, bins, ignored = plt.hist( log10(wealth )) #, bins=100)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("wealth")
 plt.ylabel("log count")
 

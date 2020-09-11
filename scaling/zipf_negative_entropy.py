@@ -14,7 +14,7 @@ s = zipf(a, size=N)
 
 def freq_count(x):
     ii, y = np.unique(x, return_counts=True)
-    return ii, y/y.sum()
+    return ii, y / y.sum()
 
 
 # sort items with rank
@@ -27,27 +27,27 @@ xs = -log(ps)
 plt.figure(0)
 plt.scatter(symbols, ps)
 plt.title("Zipf distribution")
-plt.xscale('log')
-plt.yscale('log')
-plt.ylim((1/N/3, 1))
+plt.xscale("log")
+plt.yscale("log")
+plt.ylim((1 / N / 3, 1))
 
 plt.figure(1)
 plt.title("p distribution--> giving Ni")
 count, bins, ignored = plt.hist(ps, bins=500, normed=True)
-plt.xscale('log')
-plt.yscale('log')
+plt.xscale("log")
+plt.yscale("log")
 
 
 plt.figure(2)
 plt.title("negative entropy x distribution")
 count, bins, ignored = plt.hist(xs, bins=50, normed=True)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 
 plt.figure(3)
 plt.title("exp(-x) distribution")
 count, bins, ignored = plt.hist(exp(-xs), bins=500, normed=True)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 
 plt.show()

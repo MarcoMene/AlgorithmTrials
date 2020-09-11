@@ -18,9 +18,11 @@ sigma_l = 0.01
 shape, scale = compute_params_gamma(mean_l, sigma_l)
 
 
-wealth = np.array([1]*N) # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
+wealth = np.array(
+    [1] * N
+)  # multinomial(alpha, [1 / N] * N) + alpha0  # first assignment random
 timeseries_log_returns = []
-time_of_last_lower_bound_hit = np.array([0]* N)
+time_of_last_lower_bound_hit = np.array([0] * N)
 for t in range(1, T):
     if t % 1000 == 0:
         print(f"iteration {t}")
@@ -28,7 +30,7 @@ for t in range(1, T):
     # s = np.random.normal(mean_l, sigma_l, N)
     wealth = wealth * s
     # timeseries_log_returns.append( log(s).mean() )
-    timeseries_log_returns.append( s[-1] )
+    timeseries_log_returns.append(s[-1])
     wealth = wealth * N / wealth.sum()
 
     w_mean = wealth.sum() / N
@@ -49,7 +51,7 @@ print(f"fitted alpha exponent: {-alpha_hat}")
 
 plt.figure(1)
 plt.title("wealth fraction distribution")
-count, bins, ignored = plt.hist( wealth, bins=100)  #
+count, bins, ignored = plt.hist(wealth, bins=100)  #
 # count, bins, ignored = plt.hist( log10(wealth[wealth > 0] / wealth.sum())) #, bins=100)
 # plt.xscale('log')
 # plt.yscale('log')
@@ -59,9 +61,9 @@ plt.ylabel("count")
 plt.figure(2)
 plt.title("wealth fraction distribution log-log")
 # count, bins, ignored = plt.hist( wealth/ wealth.sum() , bins=100)  # / wealth.sum()
-count, bins, ignored = plt.hist( log10(wealth ), bins=100)
+count, bins, ignored = plt.hist(log10(wealth), bins=100)
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("log wealth")
 plt.ylabel("log count")
 
@@ -75,7 +77,7 @@ log_rank = log10(rank)
 
 plt.figure(3)
 # plt.scatter(log_rank, log_s)
-plt.plot(log_rank, log_s) #, 'yo', log_rank, poly1d_fn(log_rank), '--k')
+plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
 plt.xlabel("log rank")
 plt.ylabel("log wealth")
 
@@ -93,12 +95,11 @@ plt.ylabel("log wealth")
 
 plt.figure(5)
 plt.title("time_since_last_lower_bound_hit distribution")
-count, bins, ignored = plt.hist( time_since_last_lower_bound_hit/T, bins=50)  #
+count, bins, ignored = plt.hist(time_since_last_lower_bound_hit / T, bins=50)  #
 # plt.xscale('log')
-plt.yscale('log')
+plt.yscale("log")
 plt.xlabel("time_since_last_lower_bound_hit")
 plt.ylabel("log count")
-
 
 
 plt.show()
