@@ -6,8 +6,6 @@ from scipy.stats import norm
 import scipy.misc
 
 # get empirical moments
-print [norm.moment(i) for i in range(10)]
-
 
 def approx_moment_generating_function(t, n=4, distribution=norm):
     """
@@ -28,5 +26,4 @@ plt.plot(
     ts, approx_moment_generating_function(ts, n=15), color="pink", label="order 15"
 )
 plt.legend()
-print "Enjoy the plot!"
 plt.show()

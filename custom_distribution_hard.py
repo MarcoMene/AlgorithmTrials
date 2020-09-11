@@ -42,8 +42,6 @@ s2 = 0.15
 
 ci = get_ratio_confidence_interval(mu1, mu2, s1, s2, confidence=0.68)
 ci2 = get_ratio_confidence_interval(mu1, mu2, s1, s2, confidence=0.95)
-print ci
-print ci2
 
 my_dist = GaussianRatioDistribution()
 
@@ -56,7 +54,6 @@ fs = my_dist.pdf(xs, mu1=mu1, mu2=mu2, s1=s1, s2=s2)
 ifs = my_dist.cdf(xs, mu1=mu1, mu2=mu2, s1=s1, s2=s2)
 
 med = my_dist.median(mu1=mu1, mu2=mu2, s1=s1, s2=s2)
-print med
 # ci = my_dist.interval(alpha=0.68, mu1=mu1, mu2=mu2, s1=s1, s2=s2)
 # print ci
 # ci2 = my_dist.interval(alpha=0.95, mu1=mu1, mu2=mu2, s1=s1, s2=s2)
@@ -77,5 +74,4 @@ plt.axvline(x=ci2[1], color="red")
 # plt.ylabel('dP/dX')
 # plt.title('custom distribution samples')
 # plt.grid(True)
-print "Enjoy the plot!"
 plt.show()

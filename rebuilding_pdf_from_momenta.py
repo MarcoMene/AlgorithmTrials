@@ -53,9 +53,6 @@ if __name__ == "__main__":
     iys = ifft(fts, n=3000)
     # iys = irfft(np.real(fts))
 
-    print fys
-    print iys
-
     plt.figure(1)
     plt.subplot(311)
     plt.title("Fourier transform")
@@ -107,5 +104,4 @@ if __name__ == "__main__":
 
     plt.legend()
 
-    print "Enjoy the plot!"
     plt.show()

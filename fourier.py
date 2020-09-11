@@ -54,9 +54,6 @@ if __name__ == "__main__":
     fys = fft(ys)
     iys = ifft(fys)
 
-    print fys
-    print iys
-
     h_fs, h_fys = get_human_representation_of_function(get_positive_xs_domain(fys), fys)
 
     plt.figure(1)
@@ -78,5 +75,4 @@ if __name__ == "__main__":
     plt.plot(h_xs, h_ys, color="black")
     # plt.plot(xs, np.real(ys), color="black")
     # plt.plot(xs, np.real(iys), color="pink")
-    print "Enjoy the plot!"
     plt.show()
