@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from numpy import log10, log, exp, sqrt
 import numpy as np
 from numpy.random import exponential, multinomial, normal, geometric, poisson, lognormal
-from scaling.power_law import fit_pareto_alpha, pareto_occurencies_to_zipf
+from scaling.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
 
 # parameters
 k0 = 1  # initial wealth
