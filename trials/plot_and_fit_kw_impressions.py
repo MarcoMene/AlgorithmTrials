@@ -14,11 +14,11 @@ def power_law_semilog(x, alpha, C):
     return C * power(10, -alpha * x)
 
 
-data = pd.read_csv("/Users/marcomeneghelli/PycharmProjects/AlgorithmTrials/trials/data/keywords_traffic_sept20_gb.csv")
+data = pd.read_csv("/Users/marcomeneghelli/PycharmProjects/AlgorithmTrials/trials/data/keywords_traffic_sept20_it.csv")
 
 s = data.impressions
 
-x_min_for_fit = 80
+x_min_for_fit = 10
 alpha_hat, alpha_hat_err = fit_pareto_alpha(s, x_min=x_min_for_fit, return_error=True)
 print(f"fitted alpha exponent: {round(alpha_hat, 2)} ± {round(alpha_hat_err, 2)}")
 
@@ -50,5 +50,3 @@ plt.xlabel("log-rank")
 plt.ylabel("log-impressions")
 
 plt.show()
-
-# TODO: fai fatto bene, fai per piu' countries, fai goodness of fit
