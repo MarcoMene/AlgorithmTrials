@@ -4,20 +4,28 @@ import numpy as np
 from numpy.random import exponential, multinomial, normal
 from scipy import signal
 from distrubutions.gamma_distribution import compute_params_gamma
+from scaling.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
 
-T_growth = 1000
-T_death = 100
+T_g = 200    # mean time of growth
+T_d = 100    # mean time of death
 N = 100000  # subjects
 
 # death_times = np.array([T_growth] * N) # uniform distributed time of growth
-death_times = exponential(T_death, N)
-# sizes_when_they_die = exp(death_times/T_growth)  # deterministic transform
+death_times = exponential(T_d, N)
+sizes_when_they_die = exp(death_times / T_g)  # deterministic transform
 
 
 # log-normal growth
-sizes_when_they_die = exp(
-    normal(0.85 * death_times - 0.5 * death_times, sqrt(death_times))
-)
+# mu = 0.85
+# sigma = 1
+# sizes_when_they_die = exp(
+#     normal(mu * death_times - 0.5 * sigma * sigma * death_times, sigma * sqrt(death_times))
+# )
+
+# # ML fit to alpha exponent
+alpha_hat, alpha_hat_err = fit_pareto_alpha(sizes_when_they_die, x_min=10, return_error=True)
+print(f"fitted alpha exponent: {alpha_hat} ± {alpha_hat_err}")
+
 
 # probabilistic transform
 # sizes_when_they_die = []
@@ -40,14 +48,12 @@ plt.xlabel("log size")
 plt.ylabel("log count")
 
 # # transform to rank
-log_s = -np.sort(-log10(sizes_when_they_die))
-rank = np.array(range(len(log_s))) + 1
-log_rank = log10(rank)
-
-plt.figure(2)
-# plt.scatter(log_rank, log_s)
-plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
-plt.xlabel("log rank")
-plt.ylabel("log size")
+# log_rank, log_s = pareto_occurencies_to_zipf(sizes_when_they_die)
+#
+# plt.figure(2)
+# # plt.scatter(log_rank, log_s)
+# plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
+# plt.xlabel("log rank")
+# plt.ylabel("log size")
 
 plt.show()

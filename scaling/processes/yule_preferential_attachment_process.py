@@ -9,7 +9,7 @@ k0 = 1  # initial wealth
 c = 0  # initial bias in  wealth
 m = 10  # new wealth per time-step
 
-T = 100000
+T = 10000
 
 wealth = np.array([k0 + c])
 for t in range(T):
@@ -20,7 +20,6 @@ for t in range(T):
 
     # uniform assignment
     # wealth += multinomial(int(exponential(m)), [1/len(wealth)] * len(wealth))
-
 
 print(f"theoretical exponent alpha {2 + (k0 + c) / m}")
 
@@ -58,5 +57,22 @@ plt.plot(log_rank, log_s)  # , 'yo', log_rank, poly1d_fn(log_rank), '--k')
 plt.xlabel("log rank")
 plt.ylabel("log wealth")
 plt.grid()
+
+
+# sort items by wealth
+indices_sorting = np.argsort(-wealth)
+ages_tops = (T - indices_sorting)[:(T//10)]
+
+# see distribution of age
+plt.figure(3)
+plt.title("ages of top 10%")
+count, bins, ignored = plt.hist(ages_tops)  #
+# plt.xscale("log")
+plt.yscale("log")
+plt.xlabel("age")
+plt.ylabel("count")
+plt.grid()
+
+
 
 plt.show()
