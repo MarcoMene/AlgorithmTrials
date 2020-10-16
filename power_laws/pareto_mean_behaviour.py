@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from numpy import log10
 import numpy as np
 
-from scaling.power_law_functions import fit_pareto_alpha
+from power_laws.power_law_functions import fit_pareto_alpha
 
 alpha = 2.2
 

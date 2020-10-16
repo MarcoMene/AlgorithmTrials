@@ -3,7 +3,7 @@ from numpy import log, exp, sqrt, log10
 import numpy as np
 from scipy.stats import gamma
 
-from scaling.power_law_functions import fit_pareto_alpha
+from power_laws.power_law_functions import fit_pareto_alpha
 
 T = 100  # time steps
 N = 10000  # subjects

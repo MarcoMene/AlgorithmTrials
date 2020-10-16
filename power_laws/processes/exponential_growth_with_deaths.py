@@ -4,7 +4,7 @@ import numpy as np
 from numpy.random import exponential, multinomial, normal
 from scipy import signal
 from distrubutions.gamma_distribution import compute_params_gamma
-from scaling.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
+from power_laws.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
 
 T_g = 200    # mean time of growth
 T_d = 100    # mean time of death

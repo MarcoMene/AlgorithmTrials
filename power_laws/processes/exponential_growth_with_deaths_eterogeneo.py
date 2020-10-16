@@ -3,7 +3,7 @@ from numpy import log10, log, exp, sqrt
 import numpy as np
 from numpy.random import exponential, multinomial, normal
 from scipy import signal
-from scaling.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
+from power_laws.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
 from scipy.stats import lognorm, gamma
 
 T_g = 200    # mean time of growth

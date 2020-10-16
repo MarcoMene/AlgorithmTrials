@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from numpy import log10, log, exp, sqrt, fabs
 import numpy as np
 from numpy.random import exponential, multinomial, normal, geometric, poisson, lognormal
-from scaling.power_law_functions import fit_pareto_alpha
+from power_laws.power_law_functions import fit_pareto_alpha
 
 # parameters
 

@@ -3,7 +3,7 @@ from numpy import log10, exp
 import numpy as np
 
 from distrubutions.gamma_distribution import compute_params_gamma
-from scaling.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
+from power_laws.power_law_functions import fit_pareto_alpha, pareto_occurencies_to_zipf
 
 T = 5000  # time steps
 N = 5000  # trajectories

@@ -3,7 +3,7 @@ from numpy import log10
 import numpy as np
 
 from distrubutions.gamma_distribution import compute_params_gamma
-from scaling.power_law_functions import fit_pareto_alpha
+from power_laws.power_law_functions import fit_pareto_alpha
 
 T = 10000  # time steps
 N = 100000  # subjects

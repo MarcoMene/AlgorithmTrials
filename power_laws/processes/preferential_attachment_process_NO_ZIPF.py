@@ -3,7 +3,7 @@ from numpy import log10
 import numpy as np
 from numpy.random import multinomial
 
-from scaling.power_law_functions import pareto_occurencies_to_zipf
+from power_laws.power_law_functions import pareto_occurencies_to_zipf
 
 T = 100000  # time steps
 N = 1000  # subjects
