@@ -5,21 +5,40 @@ from numpy import abs, log10
 
 fig, ax = plt.subplots(1, 1)
 
-alpha, beta = 1.4, 0.05
+alpha, beta = 1.4, 0.0
 
-x = np.linspace(0.001, 500, 100)
-# ax.plot(x, 2*levy_stable.pdf(x, alpha, beta),
-#        'r-', lw=5, alpha=0.6, label='levy_stable pdf')
-
-r = levy_stable.rvs(alpha, beta, size=100000)
+# r =
+# r2 = levy_stable.rvs(alpha, beta, size=100000)
+# r3 = levy_stable.rvs(alpha, beta, size=100000)
 
 
-count, bins, ignored = plt.hist(
-    log10(abs(r)), 100, normed=True, label="levy_stable sampling"
+plt.hist(
+    levy_stable.rvs(2, 0, size=100000),
+    bins=np.linspace(-10, 10, 100),
+    alpha=0.5,
+    normed=False, label="levy_stable a = 2 (Gaussian)"
 )
-#
-# plt.figure(1)
-# plt.xscale('log')
+plt.hist(
+    levy_stable.rvs(1.5, 0, size=100000),
+    bins=np.linspace(-10, 10, 100),
+    alpha=0.5,
+    normed=False, label="levy_stable a = 1.5",
+    color="green"
+)
+plt.hist(
+    levy_stable.rvs(1, 0, size=100000),
+    bins=np.linspace(-10, 10, 100),
+    alpha=0.5,
+    normed=False, label="levy_stable a = 1 (Cauchy)",
+    color="red"
+)
+plt.hist(
+    levy_stable.rvs(0.5, 0, size=100000),
+    bins=np.linspace(-10, 10, 100),
+    alpha=0.5,
+    normed=False, label="levy_stable a = 0.5",
+    color="yellow"
+)
 plt.yscale("log")
 plt.legend()
 
