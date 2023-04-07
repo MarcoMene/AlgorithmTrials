@@ -1,5 +1,5 @@
 import itertools
-import random
+import numpy as np
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -24,7 +24,7 @@ def to_vw_example_format(context, actions, cb_label=None):
 
 
 def sample_custom_pmf(pmf):
-    draw = random.random()
+    draw = np.random.uniform()
     sum_prob = 0
     for index, prob in enumerate(pmf):
         sum_prob += prob
@@ -45,7 +45,7 @@ def run_simulation(vw, num_iterations, countries, actions, costs, do_learn=True)
 
     for i in range(1, num_iterations + 1):
         # 1. In each simulation choose a user
-        country = random.choice(countries)
+        country = np.random.choice(countries)
 
         # 3. Pass context to vw to get an action
         user = {"country": country}
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     # Instantiate learner in VW
     vw = vowpalwabbit.Workspace("--cb_explore_adf -q UA --quiet --epsilon 0.2")
 
-    num_iterations = 1000
+    num_iterations = 100
     ctr = run_simulation(vw, num_iterations, countries, actions, costs, do_learn=True)
 
     plot_ctr(num_iterations, ctr)

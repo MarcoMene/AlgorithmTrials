@@ -1,15 +1,16 @@
 import itertools
-import random
 import numpy as np
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import vowpalwabbit
 from numpy.random import uniform
 
 from contextual_bandits.example_fm import to_vw_example_format, sample_custom_pmf
 
 if __name__ == "__main__":
+
+    np.random.seed(666)
+
     actions = ["t1", "t2"]
 
     countries = ["us"]  # , "it"
@@ -21,12 +22,14 @@ if __name__ == "__main__":
 
     # negative probability of converting?
     true_conversion_rates = {
-        "us": {"t1": 0.4, "t2": 0.6},
+        "us": {"t1": 0.3, "t2": 0.7},
     }
 
     all_contexts = countries
 
     epsilon = 0.1
+
+    cb_type = 'dm' # ips   dr dm  mtr
 
     def simulate_conversion(cr):
 
@@ -38,7 +41,7 @@ if __name__ == "__main__":
         return 0
 
     # Instantiate learner in VW
-    vw = vowpalwabbit.Workspace(f"--cb_explore_adf -q UA --quiet --epsilon {epsilon}")
+    vw = vowpalwabbit.Workspace(f"--cb_explore_adf -q UA --quiet --epsilon {epsilon} --cb_type {cb_type}")
 
     def run_simulation(vw, num_iterations, countries, actions, true_conversion_rates, do_learn=True):
         conversions = 0.0
@@ -57,7 +60,7 @@ if __name__ == "__main__":
         for i in range(1, num_iterations + 1):
             print(f"iteration {i}")
             # 1. In each simulation choose a user
-            country = random.choice(countries)
+            country = np.random.choice(countries)
 
             # 3. Pass context to vw to get an action
             user = {"country": country}
@@ -93,7 +96,7 @@ if __name__ == "__main__":
 
     fig, ax1 = plt.subplots()
     ax2 = ax1.twinx()
-    plt.title("Simple MAB")
+    plt.title(f"Simple MAB \n cb_explore_adf epsilon {epsilon} cb_type {cb_type}")
 
     for context in all_contexts:
         p1 = iterative_probabilities_by_context[context][:, 0]
@@ -107,7 +110,7 @@ if __name__ == "__main__":
     ax1.scatter(range(1, num_iterations + 1),  avg_cr, alpha=0.5, label="overall conversion rate")
     ax1.set_xlabel("iteration", fontsize=14)
     ax1.set_ylabel("overall conversion rate", fontsize=14)
-    ax1.legend(loc="upper left")
-    ax2.legend(loc="upper right")
+    ax1.legend(loc="lower left")
+    ax2.legend(loc="lower right")
     plt.ylim([0, 1])
     plt.show()
