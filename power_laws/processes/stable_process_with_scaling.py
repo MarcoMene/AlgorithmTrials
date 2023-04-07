@@ -4,13 +4,14 @@ import numpy as np
 from scipy.stats import levy_stable, linregress
 from scipy.special import gamma
 
+
 T = 1000  # time steps
 N = 1000  # subjects
 
 mu = 0.01
 sigma = 0.1
 
-alpha = 1.1
+alpha = 2.
 
 S0 = 1
 
@@ -24,13 +25,12 @@ s_t = np.array([0.] * N)
 
 
 def return_to_origin_calculator(a, c, n):
-    return gamma(1/a)/( pi * a * float_power(fabs(c * n), 1/a) )
-
+    return gamma(1 / a) / (pi * a * float_power(fabs(c * n), 1 / a))
 
 
 Ss = S0s
 for t in range(1, T + 1):
-    s = levy_stable.rvs(alpha, 0, loc=mu - float_power(sigma, alpha) / 2, scale=sigma/ sqrt(alpha), size=N)
+    s = levy_stable.rvs(alpha, 0, loc=mu - float_power(sigma, alpha) / 2, scale=sigma / sqrt(2), size=N)
     # s = np.random.normal(mu - float_power(sigma, alpha) / 2, sigma, N)
 
     s_t += s
@@ -41,9 +41,11 @@ for t in range(1, T + 1):
         var = s_t.var()
         variances.append(var)
 
+        # TODO: fir levy stable
+        # use fitted a, c
 
         # S_at_zero.append(1 / sqrt(2 * pi * var))
-        S_at_zero.append( return_to_origin_calculator(alpha, sigma/ sqrt(alpha), t)   )
+        S_at_zero.append(return_to_origin_calculator(alpha, sigma / sqrt(2), t))
 
 Ss = S0s * exp(s_t)
 
@@ -79,14 +81,14 @@ plt.ylabel("count [log]")
 plt.figure(4)
 plt.title("Scaling of variance")
 plt.plot(ts_to_probe, variances, marker="o")
-print(linregress(ts_to_probe, variances / float_power(sigma, 2))[0])
+print(linregress(ts_to_probe, variances / float_power(sigma, 2)))
 plt.xlabel("t")
 plt.ylabel("var( log(S / S0)  )")
 
 plt.figure(5)
 plt.title("Scaling of density at zero")
 plt.plot(ts_to_probe, S_at_zero, marker="o")
-print(linregress(log(ts_to_probe), log(S_at_zero))[0])
+print(linregress(log(ts_to_probe), log(S_at_zero)))
 plt.xscale("log")
 plt.yscale("log")
 plt.xlabel("t")

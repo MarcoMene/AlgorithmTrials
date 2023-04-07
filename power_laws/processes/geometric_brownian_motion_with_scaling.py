@@ -3,7 +3,7 @@ from numpy import log, exp, sqrt, log10, pi
 import numpy as np
 
 T = 1000  # time steps
-N = 1000  # subjects
+N = 10000  # subjects
 
 mu = 0.01
 sigma = 0.1
@@ -31,7 +31,7 @@ print(f"S expected mean {S0 * exp(mu * T)}, median {S0 * exp((mu - sigma * sigma
 print(f"S actual mean {Ss.mean()}, median {np.median(Ss)}")
 
 print(f"log S expected mean and median {(mu - sigma * sigma / 2) * T}, sigma {sigma * sqrt(T)}")
-print(f"log S actual mean {log(Ss / S0s).mean()}, median {np.median(log(Ss / S0s))}")
+print(f"log S actual mean {log(Ss / S0s).mean()}, median {np.median(log(Ss / S0s))}, sigma {np.std(log(Ss / S0s))}")
 
 # plt.figure(1)
 # plt.title("S fraction distribution")
