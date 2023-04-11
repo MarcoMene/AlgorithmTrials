@@ -1,4 +1,4 @@
-import itertools
+import matplotlib.colors as mcolors
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -9,11 +9,11 @@ from contextual_bandits.example_fm import to_vw_example_format, sample_custom_pm
 
 if __name__ == "__main__":
 
-    np.random.seed(6661)
+    np.random.seed(666)
 
     actions = ["t1", "t2"]
 
-    countries = ["us"]  # , "it"
+    countries = ["us", "it"]  #
 
     # negative probability of converting?
     # costs = {
@@ -22,14 +22,15 @@ if __name__ == "__main__":
 
     # negative probability of converting?
     true_conversion_rates = {
-        "us": {"t1": 0.05, "t2": 0.07},
+        "us": {"t1": 0.45, "t2": 0.55},
+        "it": {"t1": 0.2, "t2": 0.9},
     }
 
     all_contexts = countries
 
     epsilon = 0.1
 
-    cb_type = 'dm' # ips   dr dm  mtr
+    cb_type = 'dr' # ips   dr dm  mtr
 
     def simulate_conversion(cr):
 
@@ -41,9 +42,7 @@ if __name__ == "__main__":
         return 0
 
     # Instantiate learner in VW
-    # configuration_string = f"--cb_explore_adf -q UA --quiet --first 100 --cb_type {cb_type}"
-    configuration_string = f"--cb_explore_adf -q UA --quiet --epsilon {epsilon} --cb_type {cb_type}"
-    vw = vowpalwabbit.Workspace(configuration_string)
+    vw = vowpalwabbit.Workspace(f"--cb_explore_adf -q UA --quiet --epsilon {epsilon} --cb_type {cb_type}")
 
     def run_simulation(vw, num_iterations, countries, actions, true_conversion_rates, do_learn=True):
         conversions = 0.0
@@ -96,17 +95,21 @@ if __name__ == "__main__":
     achievable_cr = sum([ sum([epsilon * np.mean(list(true_conversion_rates[context].values())) ] + [(1. - epsilon)*max(true_conversion_rates[context].values())])  for context in all_contexts ]) / len(all_contexts)
     print(f"achievable_cr {achievable_cr}")
 
+    colors = list(mcolors.XKCD_COLORS.keys())
+
     fig, ax1 = plt.subplots()
     ax2 = ax1.twinx()
-    plt.title(f"Simple MAB \n {configuration_string}")
+    plt.title(f"Simple MAB \n cb_explore_adf epsilon {epsilon} cb_type {cb_type}")
 
+    c = 10
     for context in all_contexts:
         p1 = iterative_probabilities_by_context[context][:, 0]
         p2 = iterative_probabilities_by_context[context][:, 1]
-        ax2.plot(range(1, num_iterations + 1), p1, color='red', alpha=0.5, label=f"context {context} probability action {actions[0]}")
-        ax2.plot(range(1, num_iterations + 1), p2, color='darkorange', alpha=0.5, label=f"context {context} probability action {actions[1]}")
-        ax1.hlines(true_conversion_rates[context][actions[0]], 1, num_iterations + 1, linestyles="--", colors="red",  label=f"context {context} true cr {actions[0]}")
-        ax1.hlines(true_conversion_rates[context][actions[1]], 1, num_iterations + 1, linestyles="--", colors="darkorange",  label=f"context {context} true cr {actions[1]}")
+        ax2.plot(range(1, num_iterations + 1), p1, color=colors[c], alpha=0.5, label=f"context {context} probability action {actions[0]}")
+        ax2.plot(range(1, num_iterations + 1), p2, color=colors[c + 1], alpha=0.5, label=f"context {context} probability action {actions[1]}")
+        ax1.hlines(true_conversion_rates[context][actions[0]], 1, num_iterations + 1, linestyles="--", colors=colors[c],  label=f"context {context} true cr {actions[0]}")
+        ax1.hlines(true_conversion_rates[context][actions[1]], 1, num_iterations + 1, linestyles="--", colors=colors[c+1],  label=f"context {context} true cr {actions[1]}")
+        c += 2
 
     ax1.hlines(achievable_cr, 1, num_iterations + 1, linestyles="--", colors="black",  label=f"achievable CR (epsilon {epsilon}): {round(achievable_cr,2)}")
     ax1.scatter(range(1, num_iterations + 1),  avg_cr, alpha=0.5, label="overall conversion rate")
